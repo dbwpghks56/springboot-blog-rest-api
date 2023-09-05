@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile:
+        - window
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/myblog?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: mysql@123
+
+  flyway:
+    user: root
+    password: mysql@123

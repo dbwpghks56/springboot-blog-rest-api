@@ -2,15 +2,13 @@ package com.springboot.blog.post.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(
     name = "tb_post",

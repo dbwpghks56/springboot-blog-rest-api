@@ -8,4 +8,5 @@ import java.util.List;
 public interface PostService {
     PostResponseDto savePost(PostSaveRequestDto requestDto);
     List<PostResponseDto> getAllPosts();
+    PostResponseDto getPostById(Long id);
 }

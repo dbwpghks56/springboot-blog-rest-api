@@ -39,4 +39,13 @@ public class PostServiceImpl implements PostService {
 
         return PostResponseDto.builder().entity(post).build();
     }
+
+    @Override
+    @Transactional
+    public PostResponseDto updatePost(Long id, PostSaveRequestDto requestDto) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        post.update(requestDto);
+
+        return PostResponseDto.builder().entity(post).build();
+    }
 }

@@ -1,6 +1,7 @@
 package com.springboot.blog.post.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.post.dto.request.PostSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,6 +38,18 @@ public class Post extends BaseEntity {
     private String description;
     @Column(nullable = false)
     private String content;
+
+    public void update(PostSaveRequestDto requestDto) {
+        if (requestDto.getTitle() != null) {
+            this.title = requestDto.getTitle();
+        }
+        if (requestDto.getDescription() != null) {
+            this.description = requestDto.getDescription();
+        }
+        if (requestDto.getContent() != null) {
+            this.content = requestDto.getContent();
+        }
+    }
 }
 
 

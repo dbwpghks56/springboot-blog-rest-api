@@ -1,6 +1,7 @@
 package com.springboot.blog.comment.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.post.domain.model.Post;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +29,15 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    public CommentResponseDto toDto() {
+        return CommentResponseDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .email(this.email)
+                .body(this.body)
+                .build();
+    }
 }
 
 

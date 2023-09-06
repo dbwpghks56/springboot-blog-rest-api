@@ -10,4 +10,5 @@ public interface PostService {
     List<PostResponseDto> getAllPosts();
     PostResponseDto getPostById(Long id);
     PostResponseDto updatePost(Long id, PostSaveRequestDto requestDto);
+    String deletePost(Long id);
 }

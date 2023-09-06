@@ -8,6 +8,9 @@ import com.springboot.blog.post.dto.response.PostResponseDto;
 import com.springboot.blog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +31,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PostResponseDto> getAllPosts() {
-        return postRepository.findAll().stream().map(PostResponseDto::new).toList();
+    public Page<PostResponseDto> getAllPosts(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Post> pagedResult = postRepository.findAll(pageable);
+
+        return pagedResult.map(PostResponseDto::new);
     }
 
     @Override

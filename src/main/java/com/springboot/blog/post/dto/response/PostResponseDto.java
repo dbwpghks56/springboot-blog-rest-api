@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @ToString
 @NoArgsConstructor
@@ -21,5 +23,9 @@ public class PostResponseDto {
         this.title = entity.getTitle();
         this.description = entity.getDescription();
         this.content = entity.getContent();
+    }
+
+    public static List<PostResponseDto> listOf(List<Post> posts) {
+        return posts.stream().map(PostResponseDto::new).toList();
     }
 }

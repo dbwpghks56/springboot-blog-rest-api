@@ -4,6 +4,7 @@ import com.springboot.blog.boot.exception.ResourceNotFoundException;
 import com.springboot.blog.post.domain.model.Post;
 import com.springboot.blog.post.domain.repository.PostRepository;
 import com.springboot.blog.post.dto.request.PostSaveRequestDto;
+import com.springboot.blog.post.dto.response.PostPageResponseDto;
 import com.springboot.blog.post.dto.response.PostResponseDto;
 import com.springboot.blog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<PostResponseDto> getAllPosts(Integer pageNo, Integer pageSize, String sortBy) {
+    public PostPageResponseDto getAllPosts(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Post> pagedResult = postRepository.findAll(pageable);
 
-        return pagedResult.map(PostResponseDto::new);
+        return PostPageResponseDto.builder().entity(pagedResult).build();
     }
 
     @Override

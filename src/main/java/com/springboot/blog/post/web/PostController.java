@@ -3,6 +3,7 @@ package com.springboot.blog.post.web;
 import com.springboot.blog.post.domain.model.Post;
 import com.springboot.blog.post.domain.repository.PostRepository;
 import com.springboot.blog.post.dto.request.PostSaveRequestDto;
+import com.springboot.blog.post.dto.response.PostPageResponseDto;
 import com.springboot.blog.post.dto.response.PostResponseDto;
 import com.springboot.blog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PostResponseDto>> getAllPosts(
+    public ResponseEntity<PostPageResponseDto> getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
             @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy

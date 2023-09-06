@@ -33,8 +33,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(readOnly = true)
-    public PostPageResponseDto getAllPosts(Integer pageNo, Integer pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+    public PostPageResponseDto getAllPosts(Integer pageNo, Integer pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Post> pagedResult = postRepository.findAll(pageable);
 
         return PostPageResponseDto.builder().entity(pagedResult).build();

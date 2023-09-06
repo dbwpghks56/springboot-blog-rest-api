@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PostService {
     PostResponseDto savePost(PostSaveRequestDto requestDto);
-    PostPageResponseDto getAllPosts(Integer pageNo, Integer pageSize, String sortBy);
+    PostPageResponseDto getAllPosts(Integer pageNo, Integer pageSize, String sortBy, String sortDir);
     PostResponseDto getPostById(Long id);
     PostResponseDto updatePost(Long id, PostSaveRequestDto requestDto);
     String deletePost(Long id);

@@ -1,9 +1,13 @@
 package com.springboot.blog.post.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.comment.domain.model.Comment;
 import com.springboot.blog.post.dto.request.PostSaveRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -38,6 +42,8 @@ public class Post extends BaseEntity {
     private String description;
     @Column(nullable = false)
     private String content;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 
     public void update(PostSaveRequestDto requestDto) {
         if (requestDto.getTitle() != null) {

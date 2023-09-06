@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     public PostResponseDto getPostById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        Post post = checkPost(id);
 
         return PostResponseDto.builder().entity(post).build();
     }
@@ -43,7 +43,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostResponseDto updatePost(Long id, PostSaveRequestDto requestDto) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        Post post = checkPost(id);
         post.update(requestDto);
 
         return PostResponseDto.builder().entity(post).build();
@@ -52,9 +52,13 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public String deletePost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        Post post = checkPost(id);
         postRepository.delete(post);
 
         return "Post deleted successfully";
+    }
+
+    private Post checkPost(Long id) {
+        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
     }
 }

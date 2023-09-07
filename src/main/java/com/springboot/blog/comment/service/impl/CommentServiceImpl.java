@@ -18,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -63,6 +66,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentResponseDto updateComment(Long postId, Long commentId, CommentSaveRequestDto commentSaveRequestDto) {
+        Comment comment = validCommentPost(postId, commentId);
+        comment.update(commentSaveRequestDto);
+
+        return comment.toDto();
+    }
+
+    @Override
+    @Transactional
+    public String deleteComment(Long postId, Long commentId) {
+        commentRepository.delete(validCommentPost(postId, commentId));
+
+        return "댓글이 삭제되었습니다.";
+    }
+
+    private Comment validCommentPost(Long postId, Long commentId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
 
@@ -70,9 +88,13 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
 
         comment.commentPostValid(post);
-        comment.update(commentSaveRequestDto);
 
-        return comment.toDto();
+        return comment;
+    }
+
+    private <T> void validAfterFunc(Consumer<T> function, T value, Comment comment, Post post) {
+        comment.commentPostValid(post);
+        function.accept(value);
     }
 }
 

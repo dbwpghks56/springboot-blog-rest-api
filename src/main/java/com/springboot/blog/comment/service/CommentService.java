@@ -9,4 +9,5 @@ public interface CommentService {
     CommentPageResponseDto getCommentPages(Long postId, Integer pageNo, Integer pageSize);
     CommentResponseDto getCommentById(Long postId, Long commentId);
     CommentResponseDto updateComment(Long postId, Long commentId, CommentSaveRequestDto commentSaveRequestDto);
+    String deleteComment(Long postId, Long commentId);
 }

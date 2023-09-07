@@ -1,12 +1,14 @@
 package com.springboot.blog.comment.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.boot.exception.BlogAPIException;
 import com.springboot.blog.comment.dto.response.CommentPageResponseDto;
 import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.post.domain.model.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @NoArgsConstructor
@@ -39,6 +41,10 @@ public class Comment extends BaseEntity {
                 .email(this.email)
                 .body(this.body)
                 .build();
+    }
+
+    public void commentPostValid(Post post) {
+        if(!this.post.commentPostValid(post)) throw new BlogAPIException(HttpStatus.BAD_REQUEST, "댓글을 달 게시글이 존재하지 않습니다.");
     }
 }
 

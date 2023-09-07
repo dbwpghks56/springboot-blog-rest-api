@@ -7,4 +7,5 @@ import com.springboot.blog.comment.dto.response.CommentResponseDto;
 public interface CommentService {
     CommentResponseDto createComment(Long postId, CommentSaveRequestDto commentSaveRequestDto);
     CommentPageResponseDto getCommentPages(Long postId, Integer pageNo, Integer pageSize);
+    CommentResponseDto getCommentById(Long postId, Long commentId);
 }

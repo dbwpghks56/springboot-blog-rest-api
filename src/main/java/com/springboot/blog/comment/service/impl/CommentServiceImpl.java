@@ -1,5 +1,6 @@
 package com.springboot.blog.comment.service.impl;
 
+import com.springboot.blog.boot.exception.BlogAPIException;
 import com.springboot.blog.comment.domain.model.Comment;
 import com.springboot.blog.comment.domain.repository.CommentRepository;
 import com.springboot.blog.comment.dto.request.CommentSaveRequestDto;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,20 @@ public class CommentServiceImpl implements CommentService {
         Page<Comment> commentPage = commentRepository.findAllByPostId(postId, pageable);
 
         return CommentPageResponseDto.builder().entity(commentPage).build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CommentResponseDto getCommentById(Long postId, Long commentId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+
+        comment.commentPostValid(post);
+
+        return comment.toDto();
     }
 }
 

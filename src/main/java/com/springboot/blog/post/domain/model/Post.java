@@ -56,6 +56,10 @@ public class Post extends BaseEntity {
             this.content = requestDto.getContent();
         }
     }
+
+    public boolean commentPostValid(Post post) {
+        return this.id.equals(post.getId());
+    }
 }
 
 

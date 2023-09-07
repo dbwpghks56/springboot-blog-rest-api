@@ -1,6 +1,7 @@
 package com.springboot.blog.comment.web;
 
 import com.springboot.blog.comment.dto.request.CommentSaveRequestDto;
+import com.springboot.blog.comment.dto.response.CommentPageResponseDto;
 import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,14 @@ public class CommentController {
             @RequestBody CommentSaveRequestDto commentSaveRequestDto
             ) {
         return new ResponseEntity<>(commentService.createComment(postId, commentSaveRequestDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping()
+    public ResponseEntity<CommentPageResponseDto> getCommentPages(
+            @PathVariable Long postId,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize
+    ) {
+        return ResponseEntity.ok(commentService.getCommentPages(postId, pageNo, pageSize));
     }
 }

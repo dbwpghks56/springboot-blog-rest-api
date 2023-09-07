@@ -1,10 +1,12 @@
 package com.springboot.blog.comment.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.comment.dto.response.CommentPageResponseDto;
 import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.post.domain.model.Post;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 @Getter
 @NoArgsConstructor

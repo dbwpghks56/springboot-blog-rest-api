@@ -59,6 +59,21 @@ public class CommentServiceImpl implements CommentService {
 
         return comment.toDto();
     }
+
+    @Override
+    @Transactional
+    public CommentResponseDto updateComment(Long postId, Long commentId, CommentSaveRequestDto commentSaveRequestDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + postId));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
+
+        comment.commentPostValid(post);
+        comment.update(commentSaveRequestDto);
+
+        return comment.toDto();
+    }
 }
 
 

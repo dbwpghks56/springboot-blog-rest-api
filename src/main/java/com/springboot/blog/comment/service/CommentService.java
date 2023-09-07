@@ -8,4 +8,5 @@ public interface CommentService {
     CommentResponseDto createComment(Long postId, CommentSaveRequestDto commentSaveRequestDto);
     CommentPageResponseDto getCommentPages(Long postId, Integer pageNo, Integer pageSize);
     CommentResponseDto getCommentById(Long postId, Long commentId);
+    CommentResponseDto updateComment(Long postId, Long commentId, CommentSaveRequestDto commentSaveRequestDto);
 }

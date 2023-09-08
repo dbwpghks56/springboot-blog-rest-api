@@ -6,6 +6,7 @@ import com.springboot.blog.post.dto.request.PostSaveRequestDto;
 import com.springboot.blog.post.dto.response.PostPageResponseDto;
 import com.springboot.blog.post.dto.response.PostResponseDto;
 import com.springboot.blog.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class PostController {
     private final PostService postService;
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost(
-            @RequestBody PostSaveRequestDto postSaveRequestDto
+            @RequestBody @Valid PostSaveRequestDto postSaveRequestDto
             ) {
         return new ResponseEntity<>(postService.savePost(postSaveRequestDto), HttpStatus.CREATED);
     }
@@ -46,7 +47,7 @@ public class PostController {
     @PutMapping("/{id}")
     public ResponseEntity<PostResponseDto> updatePost(
             @PathVariable Long id,
-            @RequestBody PostSaveRequestDto postSaveRequestDto
+            @RequestBody @Valid PostSaveRequestDto postSaveRequestDto
             ) {
         return ResponseEntity.ok(postService.updatePost(id, postSaveRequestDto));
     }

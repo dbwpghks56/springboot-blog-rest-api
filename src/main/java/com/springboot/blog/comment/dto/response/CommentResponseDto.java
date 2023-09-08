@@ -1,5 +1,6 @@
 package com.springboot.blog.comment.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springboot.blog.post.dto.response.PostResponseDto;
 import lombok.*;
 
@@ -14,5 +15,6 @@ public class CommentResponseDto {
     private String name;
     private String email;
     private String body;
+    @JsonIgnore
     private PostResponseDto post;
 }

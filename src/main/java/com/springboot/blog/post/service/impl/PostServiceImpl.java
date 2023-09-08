@@ -9,6 +9,7 @@ import com.springboot.blog.post.dto.response.PostResponseDto;
 import com.springboot.blog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,12 +24,13 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final ModelMapper mapper;
     @Override
     @Transactional
     public PostResponseDto savePost(PostSaveRequestDto requestDto) {
-        return PostResponseDto.builder().entity(
-                postRepository.save(requestDto.toEntity())
-        ).build();
+        Post post = postRepository.save(mapper.map(requestDto, Post.class));
+
+        return mapper.map(post, PostResponseDto.class);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto getPostById(Long id) {
         Post post = checkPost(id);
 
-        return PostResponseDto.builder().entity(post).build();
+        return mapper.map(post, PostResponseDto.class);
     }
 
     @Override

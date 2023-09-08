@@ -1,15 +1,13 @@
 package com.springboot.blog.post.dto.response;
 
 import com.springboot.blog.post.domain.model.Post;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @ToString
+@Setter
 @NoArgsConstructor
 public class PostResponseDto {
     private Long id;

@@ -11,6 +11,7 @@ import com.springboot.blog.post.domain.model.Post;
 import com.springboot.blog.post.domain.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ import java.util.function.Function;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final ModelMapper mapper;
     @Override
     @Transactional
     public CommentResponseDto createComment(Long postId, CommentSaveRequestDto commentSaveRequestDto) {
@@ -60,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
 
         comment.commentPostValid(post);
 
-        return comment.toDto();
+        return mapper.map(comment, CommentResponseDto.class);
     }
 
     @Override

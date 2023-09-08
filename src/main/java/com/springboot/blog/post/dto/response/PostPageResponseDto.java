@@ -1,10 +1,7 @@
 package com.springboot.blog.post.dto.response;
 
 import com.springboot.blog.post.domain.model.Post;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -12,8 +9,9 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
+@Setter
 public class PostPageResponseDto {
-    private List<PostResponseDto> posts;
+    private List<PostResponseDto> content;
     private Long totalElements;
     private Integer totalPages;
     private Integer pageNo;
@@ -22,7 +20,7 @@ public class PostPageResponseDto {
 
     @Builder
     public PostPageResponseDto(Page<Post> entity) {
-        this.posts = PostResponseDto.listOf(entity.getContent());
+        this.content = PostResponseDto.listOf(entity.getContent());
         this.totalElements = entity.getTotalElements();
         this.totalPages = entity.getTotalPages();
         this.pageNo = entity.getNumber();

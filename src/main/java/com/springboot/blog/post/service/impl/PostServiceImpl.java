@@ -6,6 +6,7 @@ import com.springboot.blog.post.domain.repository.PostRepository;
 import com.springboot.blog.post.dto.request.PostSaveRequestDto;
 import com.springboot.blog.post.dto.response.PostPageResponseDto;
 import com.springboot.blog.post.dto.response.PostResponseDto;
+import com.springboot.blog.post.exception.PostNotFoundException;
 import com.springboot.blog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostResponseDto savePost(PostSaveRequestDto requestDto) {
-        Post post = postRepository.save(mapper.map(requestDto, Post.class));
+        Post post = postRepository.save(requestDto.toEntity());
 
         return mapper.map(post, PostResponseDto.class);
     }
@@ -41,7 +42,7 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Post> pagedResult = postRepository.findAll(pageable);
 
-        return PostPageResponseDto.builder().entity(pagedResult).build();
+        return mapper.map(pagedResult, PostPageResponseDto.class);
     }
 
     @Override
@@ -71,6 +72,6 @@ public class PostServiceImpl implements PostService {
     }
 
     private Post checkPost(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        return postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
     }
 }

@@ -45,7 +45,7 @@ public class Comment extends BaseEntity {
     }
 
     public void commentPostValid(Post post) {
-        if(!this.post.commentPostValid(post)) throw new BlogAPIException(HttpStatus.BAD_REQUEST, "댓글을 달 게시글이 존재하지 않습니다.");
+        if(!this.post.commentPostValid(post)) throw new BlogAPIException(HttpStatus.BAD_REQUEST, "댓글을 단 게시글이 존재하지 않습니다.");
     }
 
     public void update(CommentSaveRequestDto requestDto) {

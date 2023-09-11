@@ -1,5 +1,6 @@
 package com.springboot.blog.user.domain.model;
 
+import com.springboot.blog.user.dto.response.RoleResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,4 +18,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public RoleResponseDto toResponseDto() {
+        return RoleResponseDto.builder()
+                .name(this.name)
+                .build();
+    };
 }

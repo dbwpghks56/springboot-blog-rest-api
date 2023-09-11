@@ -1,16 +1,19 @@
 package com.springboot.blog.user.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.springboot.blog.user.domain.model.Role;
 import com.springboot.blog.user.domain.model.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @ToString
@@ -22,10 +25,10 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private String name;
     private String email;
-    private Set<GrantedAuthority> roles;
+    private Set<Role> roles;
 
     @Builder
-    public UserDetailsImpl(Long seq, String username, String password, String name, String email, Set<GrantedAuthority> roles) {
+    public UserDetailsImpl(Long seq, String username, String password, String name, String email, Set<Role> roles) {
         this.seq = seq;
         this.username = username;
         this.password = password;
@@ -34,20 +37,9 @@ public class UserDetailsImpl implements UserDetails {
         this.roles = roles;
     }
 
-    public static UserDetailsImpl build(User user) {
-        return UserDetailsImpl.builder()
-                .seq(user.getId())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .name(user.getName())
-                .email(user.getEmail())
-                .roles(user.getAuthorities())
-                .build();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
     }
 
     @Override

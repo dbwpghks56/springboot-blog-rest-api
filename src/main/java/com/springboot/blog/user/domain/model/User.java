@@ -1,5 +1,6 @@
 package com.springboot.blog.user.domain.model;
 
+import com.springboot.blog.user.service.impl.UserDetailsImpl;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,5 +38,16 @@ public class User {
 
     public Set<GrantedAuthority> getAuthorities() {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+    }
+
+    public UserDetailsImpl toUserDetails() {
+        return UserDetailsImpl.builder()
+                .seq(this.id)
+                .username(this.username)
+                .password(this.password)
+                .name(this.name)
+                .email(this.email)
+                .roles(this.roles)
+                .build();
     }
 }

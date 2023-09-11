@@ -4,6 +4,7 @@ import com.springboot.blog.comment.dto.request.CommentSaveRequestDto;
 import com.springboot.blog.comment.dto.response.CommentPageResponseDto;
 import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.comment.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentResponseDto> createComment(
             @PathVariable Long postId,
-            @RequestBody CommentSaveRequestDto commentSaveRequestDto
+            @RequestBody @Valid CommentSaveRequestDto commentSaveRequestDto
             ) {
         return new ResponseEntity<>(commentService.createComment(postId, commentSaveRequestDto), HttpStatus.CREATED);
     }
@@ -46,7 +47,7 @@ public class CommentController {
     public ResponseEntity<CommentResponseDto> updateComment(
             @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestBody CommentSaveRequestDto commentSaveRequestDto
+            @RequestBody @Valid CommentSaveRequestDto commentSaveRequestDto
     ) {
         return ResponseEntity.ok(commentService.updateComment(postId, commentId, commentSaveRequestDto));
     }

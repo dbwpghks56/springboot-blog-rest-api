@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 @ToString
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class UserResponseDto {
     private Long id;
     private String username;
@@ -19,12 +21,4 @@ public class UserResponseDto {
     private String name;
     private Set<RoleResponseDto> roles;
 
-    @Builder
-    public UserResponseDto(UserDetailsImpl userDetails) {
-        this.id = userDetails.getSeq();
-        this.username = userDetails.getUsername();
-        this.email = userDetails.getEmail();
-        this.name = userDetails.getName();
-        this.roles = userDetails.getRoles().stream().map(Role::toResponseDto).collect(Collectors.toSet());
-    }
 }

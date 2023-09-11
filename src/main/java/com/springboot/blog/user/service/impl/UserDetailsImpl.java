@@ -3,6 +3,7 @@ package com.springboot.blog.user.service.impl;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springboot.blog.user.domain.model.Role;
 import com.springboot.blog.user.domain.model.User;
+import com.springboot.blog.user.dto.response.UserResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,16 @@ public class UserDetailsImpl implements UserDetails {
     private String name;
     private String email;
     private Set<Role> roles;
+
+    public UserResponseDto toResponseDto() {
+        return UserResponseDto.builder()
+                .id(this.seq)
+                .username(this.username)
+                .email(this.email)
+                .name(this.name)
+                .roles(this.roles.stream().map(Role::toResponseDto).collect(Collectors.toSet()))
+                .build();
+    }
 
     @Builder
     public UserDetailsImpl(Long seq, String username, String password, String name, String email, Set<Role> roles) {

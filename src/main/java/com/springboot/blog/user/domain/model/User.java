@@ -1,5 +1,6 @@
 package com.springboot.blog.user.domain.model;
 
+import com.springboot.blog.user.dto.response.UserResponseDto;
 import com.springboot.blog.user.service.impl.UserDetailsImpl;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,6 +49,16 @@ public class User {
                 .name(this.name)
                 .email(this.email)
                 .roles(this.roles)
+                .build();
+    }
+
+    public UserResponseDto toResponseDto() {
+        return UserResponseDto.builder()
+                .id(this.id)
+                .username(this.username)
+                .email(this.email)
+                .name(this.name)
+                .roles(this.roles.stream().map(Role::toResponseDto).collect(Collectors.toSet()))
                 .build();
     }
 }

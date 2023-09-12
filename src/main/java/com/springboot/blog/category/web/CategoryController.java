@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RequestMapping("/category")
 @Slf4j
@@ -27,5 +29,10 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDto> getCategory(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.getCategory(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryResponseDto>> getCategories() {
+        return ResponseEntity.ok(categoryService.getCategories());
     }
 }

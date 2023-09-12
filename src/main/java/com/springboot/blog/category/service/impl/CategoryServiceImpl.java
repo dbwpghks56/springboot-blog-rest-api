@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -31,5 +33,14 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException(id))
                 .toResponseDto();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CategoryResponseDto> getCategories() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(Category::toResponseDto)
+                .toList();
     }
 }

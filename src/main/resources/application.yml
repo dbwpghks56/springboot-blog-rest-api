@@ -43,8 +43,7 @@ logging:
 #cipher:
 #  secret: XOb3v5akwe06sH3aSMPwJeZfNhfq6zOQ
 #
-#jwt:
-#  header: Authorization
-#  secret: sksmsgodqhrgkwlakstktlfrmrjtdmsgodqhrgkwldksgsmsrjtdmlqkswmddlehlrlehgksekdlrpantmsthflsiaus
-#  token-validity-in-seconds: 86400
-
+jwt:
+  header: Authorization
+  secret: sksmsgodqhrgkwlakstktlfrmrjtdmsgodqhrgkwldksgsmsrjtdmlqkswmddlehlrlehgksekdlrpantmsthflsiaus
+  token-validity-in-seconds: 86400

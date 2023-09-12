@@ -43,4 +43,14 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(Category::toResponseDto)
                 .toList();
     }
+
+    @Override
+    @Transactional
+    public CategoryResponseDto updateCategory(Long id, CategoryRequestDto categoryRequestDto) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id));
+        category.update(categoryRequestDto);
+
+        return category.toResponseDto();
+    }
 }

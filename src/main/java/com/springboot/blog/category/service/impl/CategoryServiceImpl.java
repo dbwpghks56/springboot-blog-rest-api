@@ -1,12 +1,26 @@
 package com.springboot.blog.category.service.impl;
 
+import com.springboot.blog.category.domain.model.Category;
+import com.springboot.blog.category.domain.repository.CategoryRepository;
+import com.springboot.blog.category.dto.request.CategoryRequestDto;
+import com.springboot.blog.category.dto.response.CategoryResponseDto;
 import com.springboot.blog.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
+    private final CategoryRepository categoryRepository;
+    @Override
+    @Transactional
+    public CategoryResponseDto addCategory(CategoryRequestDto categoryRequestDto) {
+        Category category = categoryRepository.save(categoryRequestDto.toEntity());
+
+        return category.toResponseDto();
+    }
 }

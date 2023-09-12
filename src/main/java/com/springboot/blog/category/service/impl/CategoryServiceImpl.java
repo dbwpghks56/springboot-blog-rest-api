@@ -4,6 +4,7 @@ import com.springboot.blog.category.domain.model.Category;
 import com.springboot.blog.category.domain.repository.CategoryRepository;
 import com.springboot.blog.category.dto.request.CategoryRequestDto;
 import com.springboot.blog.category.dto.response.CategoryResponseDto;
+import com.springboot.blog.category.exception.CategoryNotFoundException;
 import com.springboot.blog.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,5 +23,13 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.save(categoryRequestDto.toEntity());
 
         return category.toResponseDto();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CategoryResponseDto getCategory(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id))
+                .toResponseDto();
     }
 }

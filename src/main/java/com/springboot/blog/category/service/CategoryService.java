@@ -5,4 +5,5 @@ import com.springboot.blog.category.dto.response.CategoryResponseDto;
 
 public interface CategoryService {
     CategoryResponseDto addCategory(CategoryRequestDto categoryRequestDto);
+    CategoryResponseDto getCategory(Long id);
 }

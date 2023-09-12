@@ -4,6 +4,7 @@ import com.springboot.blog.category.dto.response.CategoryResponseDto;
 import com.springboot.blog.comment.domain.model.Comment;
 import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.post.domain.model.Post;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
@@ -13,8 +14,16 @@ import java.util.Set;
 @ToString
 @Setter
 @NoArgsConstructor
+@Schema(
+        description = "Post Response DTO"
+)
 public class PostResponseDto {
     private Long id;
+
+    @Schema(
+            description = "Blog Post Title",
+            example = "Post Title 1"
+    )
     private String title;
     private String description;
     private String content;

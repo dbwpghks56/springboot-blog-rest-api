@@ -6,6 +6,11 @@ import com.springboot.blog.post.dto.request.PostSaveRequestDto;
 import com.springboot.blog.post.dto.response.PostPageResponseDto;
 import com.springboot.blog.post.dto.response.PostResponseDto;
 import com.springboot.blog.post.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,8 +26,22 @@ import static com.springboot.blog.post.utils.AppConstants.*;
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@Tag(
+        name = "Post APIs",
+        description = "Post APIs"
+)
 public class PostController {
     private final PostService postService;
+    @SecurityRequirement(name = "Bear Authentication")
+    @Operation(
+            summary = "Create Post",
+            description = "Create Post",
+            tags = {"Post APIs"}
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Post created successfully"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost(

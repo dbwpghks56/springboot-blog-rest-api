@@ -53,4 +53,18 @@ public class CategoryServiceImpl implements CategoryService {
 
         return category.toResponseDto();
     }
+
+    @Override
+    @Transactional
+    public String deleteCategory(Long id) {
+        try {
+            Category category = categoryRepository.findById(id)
+                    .orElseThrow(() -> new CategoryNotFoundException(id));
+            categoryRepository.delete(category);
+
+            return "success";
+        } catch (Exception e) {
+            return "fail";
+        }
+    }
 }

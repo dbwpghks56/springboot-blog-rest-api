@@ -54,7 +54,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public void update(PostSaveRequestDto requestDto) {
+    public void update(PostSaveRequestDto requestDto, Category category) {
         if (requestDto.getTitle() != null) {
             this.title = requestDto.getTitle();
         }
@@ -63,6 +63,9 @@ public class Post extends BaseEntity {
         }
         if (requestDto.getContent() != null) {
             this.content = requestDto.getContent();
+        }
+        if (requestDto.getCategoryId() != null) {
+            this.category = category;
         }
     }
 

@@ -1,5 +1,6 @@
 package com.springboot.blog.post.dto.response;
 
+import com.springboot.blog.category.dto.response.CategoryResponseDto;
 import com.springboot.blog.comment.domain.model.Comment;
 import com.springboot.blog.comment.dto.response.CommentResponseDto;
 import com.springboot.blog.post.domain.model.Post;
@@ -17,6 +18,7 @@ public class PostResponseDto {
     private String title;
     private String description;
     private String content;
+    private CategoryResponseDto category;
 
     private Set<CommentResponseDto> comments;
 
@@ -26,6 +28,7 @@ public class PostResponseDto {
         this.title = entity.getTitle();
         this.description = entity.getDescription();
         this.content = entity.getContent();
+        this.category = entity.getCategory().toResponseDto();
     }
 
     public static List<PostResponseDto> listOf(List<Post> posts) {

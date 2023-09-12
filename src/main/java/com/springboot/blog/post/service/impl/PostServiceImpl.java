@@ -1,6 +1,9 @@
 package com.springboot.blog.post.service.impl;
 
 import com.springboot.blog.boot.exception.ResourceNotFoundException;
+import com.springboot.blog.category.domain.model.Category;
+import com.springboot.blog.category.domain.repository.CategoryRepository;
+import com.springboot.blog.category.exception.CategoryNotFoundException;
 import com.springboot.blog.post.domain.model.Post;
 import com.springboot.blog.post.domain.repository.PostRepository;
 import com.springboot.blog.post.dto.request.PostSaveRequestDto;
@@ -25,11 +28,15 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
     private final ModelMapper mapper;
     @Override
     @Transactional
     public PostResponseDto savePost(PostSaveRequestDto requestDto) {
-        Post post = postRepository.save(requestDto.toEntity());
+        Category category = categoryRepository.findById(requestDto.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException(requestDto.getCategoryId()));
+
+        Post post = postRepository.save(requestDto.toEntity(category));
 
         return mapper.map(post, PostResponseDto.class);
     }
@@ -50,14 +57,17 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto getPostById(Long id) {
         Post post = checkPost(id);
 
-        return mapper.map(post, PostResponseDto.class);
+        return PostResponseDto.builder().entity(post).build();
     }
 
     @Override
     @Transactional
     public PostResponseDto updatePost(Long id, PostSaveRequestDto requestDto) {
+        Category category = categoryRepository.findById(requestDto.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException(requestDto.getCategoryId()));
         Post post = checkPost(id);
-        post.update(requestDto);
+
+        post.update(requestDto,category);
 
         return PostResponseDto.builder().entity(post).build();
     }

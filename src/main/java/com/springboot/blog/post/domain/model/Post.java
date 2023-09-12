@@ -1,6 +1,7 @@
 package com.springboot.blog.post.domain.model;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.category.domain.model.Category;
 import com.springboot.blog.comment.domain.model.Comment;
 import com.springboot.blog.post.dto.request.PostSaveRequestDto;
 import jakarta.persistence.*;
@@ -36,14 +37,22 @@ public class Post extends BaseEntity {
             sequenceName = "post_seq"
     )
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String description;
+
     @Column(nullable = false)
     private String content;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public void update(PostSaveRequestDto requestDto) {
         if (requestDto.getTitle() != null) {

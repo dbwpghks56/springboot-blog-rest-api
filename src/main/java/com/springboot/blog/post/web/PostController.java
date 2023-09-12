@@ -40,6 +40,10 @@ public class PostController {
     ) {
         return ResponseEntity.ok(postService.getAllPosts(pageNo, pageSize, sortBy, sortDir));
     }
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PostResponseDto>> getPostsByCategoryId(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {

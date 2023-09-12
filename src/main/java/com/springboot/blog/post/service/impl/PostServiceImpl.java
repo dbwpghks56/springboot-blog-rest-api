@@ -81,6 +81,16 @@ public class PostServiceImpl implements PostService {
         return "Post deleted successfully";
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getPostsByCategoryId(Long categoryId) {
+        categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException(categoryId));
+        List<Post> posts = postRepository.findAllByCategoryId(categoryId);
+
+        return posts.stream().map(PostResponseDto::new).toList();
+    }
+
     private Post checkPost(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
     }

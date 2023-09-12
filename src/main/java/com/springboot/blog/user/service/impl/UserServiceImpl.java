@@ -1,5 +1,7 @@
 package com.springboot.blog.user.service.impl;
 
+import com.springboot.blog.boot.auth.JwtTokenProvider;
+import com.springboot.blog.boot.dto.response.JWTAuthResponse;
 import com.springboot.blog.boot.exception.BlogAPIException;
 import com.springboot.blog.user.domain.model.Role;
 import com.springboot.blog.user.domain.model.User;
@@ -31,19 +33,22 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     @Transactional
-    public UserResponseDto login(UserLoginDto userLoginDto) {
+    public JWTAuthResponse login(UserLoginDto userLoginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userLoginDto.getUsernameOrEmail(),
                 userLoginDto.getPassword()
         ));
+        log.info(userLoginDto.getUsernameOrEmail());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return userDetails.toResponseDto();
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        return JWTAuthResponse.builder().accessToken(token).tokenType("Bearer ").build();
     }
 
     @Override
@@ -68,6 +73,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return user.toResponseDto();
+    }
+
+    @Override
+    @Transactional
+    public UserResponseDto getUserProfile() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return userDetails.toResponseDto();
     }
 }
 

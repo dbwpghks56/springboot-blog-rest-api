@@ -1,14 +1,12 @@
 package com.springboot.blog.boot.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
+@Builder
 public class JWTAuthResponse {
     private String accessToken;
     private String tokenType = "Bearer";

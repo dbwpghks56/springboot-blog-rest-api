@@ -44,10 +44,10 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests(authorizeRequests ->
 //                        authorizeRequests.anyRequest().authenticated()
-                        authorizeRequests.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                                .requestMatchers("/api/v1/user/**").permitAll()
+                        authorizeRequests.requestMatchers(HttpMethod.GET, "/**").permitAll()
+                                .requestMatchers("/user/**").permitAll()
                                 .anyRequest().authenticated()
-                ).httpBasic(Customizer.withDefaults())
+                )
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -2,6 +2,7 @@ package com.springboot.blog.product.domain.service;
 
 import com.springboot.blog.product.domain.Product;
 import com.springboot.blog.product.domain.repository.ProductRepository;
+import com.springboot.blog.product.presentation.dto.request.ProductRequestDto;
 import com.springboot.blog.product.presentation.dto.response.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,10 @@ public class ProductService implements ProductCommandUseCase{
     @Override
     public List<ProductResponseDto> searchProducts(String searchString) {
         return productRepository.searchProducts(searchString).stream().map(Product::toResponseDto).toList();
+    }
+
+    @Override
+    public ProductResponseDto saveProduct(ProductRequestDto productRequestDto) {
+        return productRepository.saveProduct(productRequestDto.toEntity()).toResponseDto();
     }
 }

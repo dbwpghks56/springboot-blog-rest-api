@@ -1,6 +1,7 @@
 package com.springboot.blog.product.application;
 
 import com.springboot.blog.product.domain.service.ProductCommandUseCase;
+import com.springboot.blog.product.presentation.dto.request.ProductRequestDto;
 import com.springboot.blog.product.presentation.dto.response.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,5 +15,9 @@ public class ProductFacade {
 
     public List<ProductResponseDto> searchProducts(String searchString) {
         return productCommandUseCase.searchProducts(searchString);
+    }
+
+    public ProductResponseDto saveProduct(ProductRequestDto productRequestDto) {
+        return productCommandUseCase.saveProduct(productRequestDto);
     }
 }

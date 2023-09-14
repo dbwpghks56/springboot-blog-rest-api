@@ -1,13 +1,13 @@
 package com.springboot.blog.product.presentation;
 
 import com.springboot.blog.product.application.ProductFacade;
+import com.springboot.blog.product.presentation.dto.request.ProductRequestDto;
 import com.springboot.blog.product.presentation.dto.response.ProductResponseDto;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +18,14 @@ import java.util.List;
 public class ProductRestController {
     private final ProductFacade productFacade;
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDto>> searchProducts(String searchString) {
+    @GetMapping("/{searchString}")
+    public ResponseEntity<List<ProductResponseDto>> searchProducts(@PathVariable String searchString) {
         return ResponseEntity.ok(productFacade.searchProducts(searchString));
+    }
+
+    @PostMapping
+    @SecurityRequirement(name = "Bear Authentication")
+    public ResponseEntity<ProductResponseDto> saveProduct(@RequestBody ProductRequestDto productRequestDto) {
+        return ResponseEntity.ok(productFacade.saveProduct(productRequestDto));
     }
 }

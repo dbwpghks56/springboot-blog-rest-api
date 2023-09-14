@@ -1,6 +1,7 @@
 package com.springboot.blog.product.domain;
 
 import com.springboot.blog.boot.domain.model.BaseEntity;
+import com.springboot.blog.product.presentation.dto.response.ProductResponseDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,17 @@ public class Product extends BaseEntity {
     private String description;
     private boolean active;
     private String imageUrl;
+
+    public ProductResponseDto toResponseDto() {
+        return ProductResponseDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .sku(this.sku)
+                .description(this.description)
+                .active(this.active)
+                .imageUrl(this.imageUrl)
+                .build();
+    }
 }
 
 

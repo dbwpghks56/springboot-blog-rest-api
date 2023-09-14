@@ -26,6 +26,6 @@ public class ProductRestController {
     @PostMapping
     @SecurityRequirement(name = "Bear Authentication")
     public ResponseEntity<ProductResponseDto> saveProduct(@RequestBody ProductRequestDto productRequestDto) {
-        return ResponseEntity.ok(productFacade.saveProduct(productRequestDto));
+        return new ResponseEntity<>(productFacade.saveProduct(productRequestDto), org.springframework.http.HttpStatus.CREATED);
     }
 }
